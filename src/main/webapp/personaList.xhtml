@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+    <h1>Lista de personas</h1>
+    <h:form>
+        <p:dataTable var="persona" value="#{personaBean.personas}" id="tablaPersona">
+            <p:column headerText="Id">
+                <h:outputText value="#{persona.identificacion}"/>
+            </p:column>
+
+            <p:column headerText="Nombre">
+                <h:outputText value="#{persona.nombre}"/>
+            </p:column>
+
+            <p:column headerText="Fecha">
+                <h:outputText value="#{persona.fecha}">
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Acciones">
+
+
+                <p:commandButton icon="fa fa-fw fa-remove" title="Eliminar" id="eliminar" action="#{personaBean.delete}"
+                                 update="tablaPersona">
+                    <f:param name="PersonaId" value="#{persona.id}"/>
+                    <p:confirm header="Confirmación" message="¿Está seguro de eliminar este registro?"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times"/>
+                </p:confirmDialog>
+
+                <p:commandButton action="#{personaBean.carga}" title="Modificar" icon="fa fa-fw fa-edit"
+                                 style="margin-right:20px;">
+                    <f:param name="PersonaId" value="#{persona.id}"/>
+                </p:commandButton>
+
+
+            </p:column>
+        </p:dataTable>
+
+        <p:linkButton outcome="personaCreate" value="Crear personas" style="margin-right:20px;"/>
+        <p:commandButton value="Actualizar" id="ajax" update="tablaPersona" action="#{personaBean.actualiza}" style="margin-right:20px;" styleClass="ui-priority-primary" />
+
+    </h:form>
+</h:body>
+</html>
